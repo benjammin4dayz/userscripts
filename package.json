@@ -1,0 +1,13 @@
+{
+  "name": "userscripts",
+  "private": true,
+  "repository": "https://github.com/benjammin4dayz/userscripts",
+  "author": "benjammin4dayz",
+  "main": "index.js",
+  "scripts": {
+    "add": "node index.js"
+  },
+  "devDependencies": {
+    "@violentmonkey/types": "^0.2.0"
+  }
+}
