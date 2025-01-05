@@ -1,5 +1,6 @@
 // ==UserScript==
 // @name        Forget Me
+// @namespace   Global
 // @match       *://*/*
 // @grant       GM_registerMenuCommand
 // @version     1.0
