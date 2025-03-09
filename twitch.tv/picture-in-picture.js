@@ -2,7 +2,7 @@
 // @name        Twitch Picture in Picture
 // @match       https://www.twitch.tv/*
 // @grant       none
-// @version     1.4
+// @version     1.5
 // @icon        https://assets.twitch.tv/assets/favicon-32-e29e246c157142c94346.png
 // @author      benjammin4dayz
 // @homepage    https://github.com/benjammin4dayz/userscripts
@@ -10,25 +10,45 @@
 // ==/UserScript==
 // @ts-check
 (() => {
-  const topNavMenu = document.querySelector(".top-nav__menu");
-  const insertLocation = topNavMenu?.children[0];
+  const insertPipButton = () => {
+    const topNavMenu = document.querySelector(".top-nav__menu");
+    if (!topNavMenu) return;
 
-  const pipButton = createButton();
+    const insertLocation = topNavMenu.children[0];
+    const pipButton = createButton();
 
-  pipButton.onclick = () => {
-    const videoPlayer = document.querySelector("video");
+    pipButton.onclick = () => {
+      const videoPlayer = document.querySelector("video");
 
-    if (!videoPlayer) {
-      alert("Couldn't find the video player..");
-      return;
-    }
+      if (!videoPlayer) {
+        alert("Couldn't find the video player..");
+        return;
+      }
 
-    void videoPlayer.requestPictureInPicture();
+      void videoPlayer.requestPictureInPicture();
+    };
+
+    pipButton.appendChild(createIcon());
+    insertLocation.appendChild(pipButton);
+
+    return true;
   };
 
-  pipButton.appendChild(createIcon());
-  insertLocation?.appendChild(pipButton);
+  const observer = new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+      if (mutation.type === "childList") {
+        const didInsert = insertPipButton();
+        if (didInsert) {
+          observer.disconnect();
+          break;
+        }
+      }
+    }
+  });
 
+  observer.observe(document.body, { childList: true, subtree: true });
+
+  // ---
   /** @returns {HTMLButtonElement} a styled button element */
   function createButton() {
     const button = document.createElement("button");
