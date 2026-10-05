@@ -2,7 +2,7 @@
 // @name        osu!direct
 // @match       https://osu.ppy.sh/*
 // @grant       none
-// @version     1.0.0
+// @version     1.0.1
 // @icon        https://osu.ppy.sh/images/favicon/favicon-32x32.png
 // @author      benjammin4dayz
 // @homepage    https://github.com/benjammin4dayz/userscripts
@@ -18,11 +18,8 @@
     const link = findOsuDirect();
     if (!link) return;
 
-    const id = document
-      .querySelector("base")
-      .href.match(/\/beatmapsets\/(\d+)/)[1];
-
-    link.href = `osu://b/${id}`;
+    const id = location.hash.split("/")[1];
+    link.href = id ? `osu://b/${id}` : "";
   };
 
   new MutationObserver(activateOsuDirect).observe(document, {
